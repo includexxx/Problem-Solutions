@@ -1,0 +1,179 @@
+#include <bits/stdc++.h>
+
+#define pb push_back
+
+#define MAX 10000002
+
+#define mod  1000000007
+
+#define read   freopen("input.txt","r",stdin);
+
+#define write  freopen("output.txt","w",stdout);
+
+#define B 10000007
+
+#define inf (1<<30)
+
+using namespace std;
+
+typedef long long ll;
+
+typedef unsigned long long llu;
+
+
+
+ll fx[]= {1,-1,0,0};
+
+ll fy[]= {0,0,1,-1};
+
+
+ll dx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+
+ll dy[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+
+vector<ll>prime;
+
+bool mark[MAX];
+
+
+
+void seive()
+
+{
+
+    for(ll i=3; i<=sqrt(MAX); i+=2)
+
+    {
+
+        if(!mark[i]) for(ll j=i*i; j<MAX; j+=i) mark[j]=true;
+
+    }
+
+    prime.pb(2);
+
+    for(ll i=3; i<MAX; i+=2) if(mark[i]==false) prime.pb(i);
+
+}
+
+ll num,fac,test;
+
+void factor(ll  num)
+
+{
+
+    int len=prime.size();
+
+    ll minm=123426666666666;
+
+    bool flag=false;
+
+    ll  n=fac;
+
+    for(int  i=0; prime[i]*prime[i]<=num ; i++)
+
+    {
+
+        if(num%prime[i]==0)
+
+        {
+
+            int power=0;
+
+            if(prime[i]>fac) flag=true;
+
+            while(num%prime[i]==0)
+
+            {
+
+                power++;
+
+                num/=prime[i];
+
+            }
+
+            ll s=n;
+
+            ll cnt=0;
+
+            while(s)
+
+            {
+
+                cnt+=(s/prime[i]);
+
+                s/=prime[i];
+
+            }
+
+            minm=min(minm,(cnt/power));
+
+        }
+
+    }
+
+
+
+    if(num>1)
+
+    {
+
+        if(num>fac) flag=true;
+
+        ll s=n;
+
+        ll cnt=0;
+
+        ll power=1;
+
+        while(s)
+
+        {
+
+            cnt+=(s/num);
+
+            s/=num;
+
+        }
+
+        minm=min(minm,(cnt/power));
+
+
+
+    }
+
+
+    if(flag) puts("Impossible to divide");
+
+    else cout<<minm<<endl;
+
+
+}
+
+int main()
+
+{
+
+    seive();
+
+    scanf("%lld",&test);
+
+    for(int cas=1; cas<=test; cas++)
+
+    {
+
+
+        scanf("%lld %lld",&num,&fac);
+
+        printf("Case %d:\n",cas);
+
+        factor(num);
+
+
+    }
+
+    return 0;
+
+}
+
+

@@ -1,0 +1,301 @@
+/*********************************   MH RIYAD  *************************************/
+
+#include <bits/stdc++.h>
+
+#include<unordered_set>
+
+#define  pb     push_back
+
+#define  MAX    1010
+
+#define  mod    100000007
+
+#define  read   freopen("input.txt","r",stdin);
+
+#define  write  freopen("output.txt","w",stdout);
+
+#define  inf   (1<<30)
+
+using namespace std;
+
+typedef long long ll ;
+
+typedef unsigned long long ull ;
+
+
+
+
+
+//struct node
+
+//{
+
+//    int index,w;
+
+//
+
+//};
+
+//bool cmp(node i,node j)
+
+//{
+
+//    return i.w>j.w;
+
+//
+
+//}
+
+//vector<node>v[160006];
+
+//bool mark[160006];
+
+//int main()
+
+//{
+
+//    read;
+
+//    int n,s;
+
+//    scanf("%d",&n);
+
+//    for(int i=2; i<=n*2; i++)
+
+//    {
+
+//        for(int j=1; j<i; j++)
+
+//        {
+
+//            scanf("%d",&s);
+
+//            node no,no2;
+
+//            no.index=i;
+
+//            no.w=s;
+
+//            v[j].pb(no);
+
+//            no2.index=j;
+
+//            no2.w=s;
+
+//            v[i].pb(no2);
+
+//        }
+
+//    }
+
+//
+
+//    for(int i=1; i<=n*2; i++)
+
+//    {
+
+//
+
+//        for(int j=0; j<v[i].size(); j++)
+
+//        {
+
+//            node p=v[i][j];
+
+//            cout<<p.index<<" "<<p.w<<"    ";
+
+//        }
+
+//        cout<<endl;
+
+//    }
+
+//    for(int i=1; i<=n*2; i++)
+
+//    {
+
+//
+
+//        sort(v[i].begin(),v[i].end(),cmp);
+
+//        int len=v[i].size();
+
+//        for(int j=0; j<len; j++)
+
+//        {
+
+//            node p=v[i][j];
+
+//          //  if(!mark[p.w])
+
+//          //  {
+
+//                cout<<p.index<<" ";
+
+//             //   mark[p.w]=true;
+
+//                break;
+
+//           // }
+
+//        }
+
+//    }
+
+//
+
+//    return 0;
+
+//}
+
+
+
+int dx[]= {-1,0,0,+1};
+
+int dy[]= {0,+1,-1,0};
+
+
+
+struct node
+
+{
+
+    int x,y,w;
+
+    friend bool operator<(node i,node j)
+
+    {
+
+        return i.w>j.w;
+
+    }
+
+};
+
+priority_queue<node>Q;
+
+void dijkstra(int a,int b);
+
+int row,col,graph[MAX][MAX],cost[MAX][MAX];
+
+bool mark[MAX][MAX];
+
+int main()
+
+{
+
+  //  read;
+
+    int test;
+
+    scanf("%d",&test);
+
+    while(test--)
+
+    {
+
+        memset(mark,false,sizeof(mark));
+
+        scanf("%d%d",&row,&col);
+
+        for(int i=0; i<row; i++)
+
+        {
+
+            for(int j=0; j<col; j++)
+
+            {
+
+                scanf("%d",&graph[i][j]);
+
+                cost[i][j]=inf;
+
+            }
+
+        }
+
+        dijkstra(0,0);
+
+        printf("%d\n",cost[row-1][col-1]);
+
+    }
+
+    return 0;
+
+}
+
+
+
+void dijkstra(int r,int c)
+
+{
+
+    cost[r][c]=graph[r][c];
+
+    node q;
+
+    q.x=r;
+
+    q.y=c;
+
+    q.w=graph[r][c];
+
+    Q.push(q);
+
+
+
+    while(!Q.empty())
+
+    {
+
+        node p=Q.top();
+
+        Q.pop();
+
+        mark[p.x][p.y]=true;
+
+     //   cout<<p.x<<" "<<p.y<<" "<<p.w<<endl;
+
+        for(int i=0; i<4; i++)
+
+        {
+
+            int R=dx[i]+p.x;
+
+            int C=dy[i]+p.y;
+
+            if(R>=0&&R<row&&C>=0&&C<col&&mark[R][C]==false)
+
+            {
+
+                if(cost[p.x][p.y]+graph[R][C]<cost[R][C])
+
+                {
+
+                    cost[R][C]=cost[p.x][p.y]+graph[R][C];
+
+                    node yo;
+
+                    yo.x=R;
+
+                    yo.y=C;
+
+                    yo.w=cost[R][C];
+
+                    Q.push(yo);
+
+                }
+
+            }
+
+        }
+
+
+
+    }
+
+
+
+}
+
+

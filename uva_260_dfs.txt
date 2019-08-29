@@ -1,0 +1,58 @@
+#include<stdio.h>
+#define READ freopen("input.txt","r",stdin)
+#define WRITE freopen("output.txt","w",stdout)
+#define ll long long
+#define Max(a,b) (a>b?a:b)
+int x[]=  {-1,0,-1,0,1,1};
+int y[] = {0,1,-1,-1,0,1};
+
+char str[201][201];
+bool visited[201][201];
+int row ;
+bool black ;
+
+void dfs(int r,int c)
+{
+    if(r == 0) black  =true ;
+    for(int i=0; i<6; i++)
+    {
+        int R = r+x[i];
+        int C = c+y[i];
+        if(R>=0 && R<row && C>=0 && C<row && visited[R][C]==false&&str[R][C]=='b')
+        {
+            visited[R][C] =true ;
+            dfs(R,C);
+        }
+    }
+
+}
+void init()
+{
+    for(int i=0; i<201; i++)
+        for(int j=0; j<201; j++) visited[i][j]= false ;
+    black=false;
+}
+int main()
+{
+  //  READ ;
+    int cnt = 0 ;
+    while(scanf("%d",&row)==1 && row!=0)
+    {
+        init() ;
+        for(int i = 0; i< row ; i++) scanf("%s",str[i]);
+
+        for(int i=0; i<row; i++)
+        {
+            if(str[row-1][i]=='b')
+            {
+                dfs(row-1,i);
+            }
+        }
+        if(black)printf("%d %c\n",++cnt,'B');
+        else printf("%d %c\n",++cnt,'W');
+
+    }
+
+
+    return 0 ;
+}

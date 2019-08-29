@@ -1,0 +1,131 @@
+#include<stdio.h>
+
+#define READ freopen("input.txt","r",stdin)
+
+#define WRITE freopen("output.txt","w",stdout)
+
+#define ll long long
+
+#define MAX(a,b)  a>b?a:b
+
+#define siz 102
+
+using namespace std ;
+
+
+
+int node,edge,mx,path;
+
+int adj[50][50] ;
+
+
+
+void dfs(int cur)
+
+{
+
+
+
+    for(int i = 0; i< node; i++)
+
+    {
+
+
+
+        if(adj[cur][i]==1)
+
+        {
+
+            path++;
+
+            adj[cur][i]= 0 ;
+
+            adj[i][cur]= 0 ;
+
+            dfs(i);
+
+            adj[cur][i]= 1 ;
+
+            adj[i][cur]= 1 ;
+
+            path--;
+
+
+
+        }
+
+    }
+
+       mx = MAX(mx,path) ;
+
+}
+
+
+
+
+
+int main()
+
+{
+
+
+
+  //  READ;
+
+    while(scanf("%d %d",&node,&edge)==2)
+
+    {
+
+        if(node==0 && edge==0) break ;
+
+
+
+        for(int i = 0 ; i<32; i++)
+
+            for(int j = 0; j<32; j++) adj[i][j] = 0 ;
+
+
+
+        // for(int i =0 ; i<=node; i++) mark[i] = false ;
+
+        for(int i = 0; i<edge; i++)
+
+        {
+
+            int u,v;
+
+            scanf("%d %d",&u,&v);
+
+            adj[u][v] = 1 ;
+
+            adj[v][u] = 1 ;
+
+        }
+
+        int ans = 0 ;
+
+        for(int i = 0 ; i<node; i++)
+
+        {
+
+            mx = 0;
+
+            dfs(i);
+
+            ans = MAX(ans, mx) ;
+
+        }
+
+        printf("%d\n",ans) ;
+
+    }
+
+
+
+    return 0 ;
+
+}
+
+
+
+

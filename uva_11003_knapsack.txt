@@ -1,0 +1,81 @@
+#include<stdio.h>
+
+#define ll long long
+
+int N;
+
+int weight[1003], load[1003];
+
+int weight1[1003], load1[1003];
+
+int dp[1005][9002];
+
+void clear()
+
+{
+
+ for (int i = 0; i < 1001; i++)
+
+  for (int j = 0; j < 9001; j++) dp[i][j] = -1;
+
+}
+
+int Max(int a, int b)
+
+{
+
+ return a > b ? a : b;
+
+}
+
+int solve(int i, int w)
+
+{
+
+ if (dp[i][w] != -1) return dp[i][w];
+
+ if (i >=N) return 0;
+
+ int a = 0, b = 0;
+
+ if (w <= load[i])
+
+ {
+
+  a = 1 + solve(i + 1, w + weight[i]);
+
+ }
+
+ b = solve(i + 1, w);
+
+ return dp[i][w]=Max(a, b);
+
+ //return  Max(a, b);
+
+}
+
+int main()
+
+{
+
+ // freopen("Text.txt", "r", stdin);
+
+ while (scanf("%d", &N) == 1 && N != 0)
+
+ {
+
+  for (int i = 0; i < N; i++) scanf("%d %d", &weight1[i], &load1[i]);
+
+  for (int i = 0, j = N - 1; i < N; i++, j--) weight[i] = weight1[j], load[i] = load1[j];
+
+  clear();
+
+  int ans = solve(0, 0);
+
+  printf("%d\n", ans);
+
+ }
+
+ return 0;
+
+}
